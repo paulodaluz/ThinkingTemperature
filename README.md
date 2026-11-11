@@ -1,99 +1,154 @@
-# Descrição do Projeto
-Este projeto foi desenvolvido com o intuito de atender aos requisitos de um trabalho da faculdade, condizente a matéria de Internet of Things.
+![Tela de login do Thinking Temperature em execução](documentation/screenshot.png)
 
-## Objetivo do Projeto
-O objetivo deste trabalho é o desenvolvimento de soluções funcionais passíveis de integrarem ambientes de Internet das Coisas(IoT).
+# Thinking Temperature
 
-Definições específicas:
+Protótipo acadêmico de Internet das Coisas que combina um frontend React para autenticação e visualização de temperatura/ocupação com um sketch Arduino de leitura de temperatura e exibição em LCD. A proposta original prevê economia de energia, mas a integração completa com controle de ar-condicionado não está implementada nos arquivos atuais.
 
-- Os alunos serão divididos em grupos de até 4 (quatro) participantes;
-- Cada grupo deverá desenvolver uma solução para IoT;
-- Cada grupo poderá optar por desenvolver a sua solução seguindo uma das
-seguintes abordagens: Software-based, Hardware-based;
-- O grupo deverá desenvolver uma justificativa para que a solução desenvolvida
-encaixe com ambientes de IoT;
-- A solução poderá ser para qualquer área da IoT: Cidades Inteligentes,
-Indústria 4.0, Agricultura, Trânsito, Saúde, Educação, Casas Inteligentes, entre
-outras;
-- A solução deverá possuir uma identidade visual e um nome fantasia que a
-represente;
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
+[![License MIT](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 
+## 📋 Table of contents
 
-#### Abordagem Software-based:
-- Desenvolvimento focado na parte de Software;
-- Qualquer linguagem de programação poderá ser utilizada pra o desenvolvimento;
-- Nesta abordagem, o grupo poderá simular um dispositivo físico no back-end.
-- O input e output de dados deve ser feito para um arquivo .txt, banco de dados, ou Web Service. Por exemplo: o grupo poderá criar um arquivo .txt com todas as entradas de um sensor de temperatura hipotético;
-- A solução deverá obrigatoriamente seguir a abordagem de Middleware vista em sala de aula;
-- A solução deverá possuir uma interface gráfica intuitiva para atuação ou sensoriamento sobre os dispositivos no front-end, sendo eles simulados ou não;
+- [✨ Features](#features)
+- [🧪 Technologies](#technologies)
+- [🛠️ Environment setup](#environment-setup)
+- [🚀 Getting started](#getting-started)
+- [🗂️ Project structure](#project-structure)
+- [✅ Testing and quality](#testing-and-quality)
+- [🔎 Troubleshooting](#troubleshooting)
+- [🤝 Contributing](#contributing)
+- [📜 License](#license)
 
+<a id="features"></a>
 
+## ✨ Features
 
-#### Abordagem Hardware-based:
-- Desenvolvimento focado na parte de Hardware;
-- O grupo deverá montar o circuito com os sensores e atuadores disponíveis para uso,
-além da placa de desenvolvimento Arduino UNO e/ou Raspberry Pi 3 para back-end;
-- Qualquer linguagem de programação poderá ser utilizada pra o desenvolvimento na
-parte de Software front-end;
-- A solução deverá obrigatoriamente seguir a abordagem de Middleware vista em sala
-de aula;
-- O grupo poderá utilizar os softwares vistos em aula: Blynk e Remote XY. Porém, é
-necessário que o grupo desenvolva soluções próprias para trabalhar em conjunto
-com os softwares mencionados;
-- São sensores disponíveis para uso: temperatura, proximidade, luminosidade,
-acelerômetro e giroscópio, botões;
-- São atuadores disponíveis para uso: leds, LCD, servo motores, buzzer, módulo relé.
+- Login por e-mail/senha com Firebase Authentication.
+- Painel web que escuta `/temperatura` e `/qntPessoas` no Realtime Database.
+- Botões de modo automático, ligar e desligar que exibem mensagens; não há comando implementado para um atuador físico.
+- Sketch Arduino com leitura analógica de temperatura, LCD 16×2 e saída serial a 9600 baud.
 
-## Idéia
+O sketch versionado não envia dados ao Firebase, não conta pessoas nem controla ar-condicionado. Essas integrações faziam parte da proposta acadêmica e permanecem pendentes.
 
-#### Método escolhido: 
-Modelo Híbrido (Software-based e Hardware-based);
+<a id="technologies"></a>
 
-#### Solução:
-Desenvolver um sistema com a finalidade de poder detectar quantas pessoas estão presentes em um determinado recinto, efetuando o controle de temperatura ativando / desativando o ar-condicionado conforme a temperatura ambiente e determinadas regras;
+## 🧪 Technologies
 
-#### Justificativa: 
-A nossa ideia foi feita com base em um pensamento mais econômico em relação ao modo de como usamos a energia. O projeto consiste em dois sensores ultrassônicos sondando uma porta para determinar quantas pessoas estão dentro de um recinto, e com a ajuda de um sensor de temperatura, determinar se o arduino deve ou não fazer um ajuste na temperatura do local. Tendo algumas regras para ligar e desligar o ar-condicionado (baseando-se no horário do dia) e para determinar a alteração da temperatura, além de deixar o local com uma boa ambientação, também evita os gastos desnecessários de energia, já que o próprio arduino determina quando se deve ou não ligar o ar-condicionado e se ele necessita de uma alteração na sua temperatura (levando em conta o número de pessoas dentro do recinto, a temperatura ambiente e o horário do dia).
+| Tecnologia | Versão declarada | Finalidade |
+| --- | --- | --- |
+| [React](https://react.dev/) | `^16.9.0` | Frontend |
+| [Create React App](https://create-react-app.dev/) | `react-scripts` `3.1.1` | Desenvolvimento, build e teste |
+| [Firebase](https://firebase.google.com/docs) | `^7.2.1` | Autenticação e Realtime Database |
+| [React Router](https://v5.reactrouter.com/) | `^5.0.1` | HashRouter |
+| [Bootstrap](https://getbootstrap.com/docs/4.3/) | `^4.3.1` | Estilos |
+| [Arduino / LiquidCrystal](https://docs.arduino.cc/libraries/liquidcrystal/) | Versões não declaradas | Leitura analógica, serial e LCD |
 
-#### Componentes: 
-Para o nosso trabalho foram utilizadas os seguintes componentes:
-- 1x Arduino UNO;
-- 2x Protoboards;
-- 1x Cabo de Alimentação;
-- 53x Jumpers;
-- 1x Sensor de Temperatura;
-- 2x Sensores Ultrassônicos;
-- 1x Display LCD;
-- 1x Potenciômetro.
+As dependências web são declaradas em `frontend/package.json`. Node.js não está fixado; a reprodução usa Node.js 14.21.3/npm 6.14.18, compatível com a geração do CRA 3.
 
-## Tecnologias Utilizadas
-As técnologias utilizadas foram NodeJS, NPM, React, Firebase e Arduino.
+<a id="environment-setup"></a>
 
-## Bibliotecas utilizadas
-* axios versão 0.19.0,
-* bootstrap versão 4.3.1,
-* firebase versão 7.2.1,
-* react versão 16.9.0,
-* react-bootstrap versão 1.0.0-beta.12,
-* react-dom versão 16.9.0,
-* react-router-dom versão 5.0.1,
-* react-scripts versão 3.1.1,
-* react-spinners versão 0.6.1
+## 🛠️ Environment setup
 
-## Como instalar a aplicação
-Basta apenas baixar o projeto, abrir a pasta ```frontend``` no terminal e digitar o comando ```npm install```, que ele ira instalar todas as bibliotecas.
+Requer Git, Node.js e npm. O projeto não fixa Node.js em `engines`, `.nvmrc` ou `.node-version`. **Node.js 14.21.3 com npm 6.14.18** foi escolhido para a reprodução da pilha histórica; não é uma versão declarada pelo repositório nem uma atualização de dependências.
 
-## Como utilizar a aplicação localmente
-Para startar o projeto você pode digitar o comando ```npm start``` na pasta ```frontend``` do projeto.
+```bash
+nvm install 14.21.3
+nvm use 14.21.3
+git clone https://github.com/paulodaluz/ThinkingTemperature.git
+cd ThinkingTemperature/frontend
+npm install
+```
 
-Após isso ele irá abrir na porta `3000` no seu localhost, ou seja, basta apenas entrar em `localhost:3000`.
+Não há lockfile versionado: use `npm install`, não `npm ci`. Este guia adota npm, disponível com o Node.js, sem prometer uma resolução de dependências idêntica entre instalações. Não há Husky, hooks versionados ou script `prepare` para ativar.
 
-## Como realizar o build da aplicação
-Para realizar o build do projeto você deve abrir o terminal na pasta do projeto e digitar o comando `npm run build` no diretório do projeto. Ele irá gerar tudo dentro da pasta build, pronto para ser usado.
+### Frontend Firebase
 
-## Desenvolvedor
-[Paulo Ricardo da Luz Júnior](https://www.linkedin.com/in/paulo-ricardo-da-luz-j%C3%BAnior-5a3953164/)
+`frontend/src/services/auth.js` inicializa o Firebase a partir de um objeto no próprio arquivo. Configure um projeto Web próprio, habilite login por e-mail/senha e o Realtime Database. O painel espera valores numéricos nos caminhos `/temperatura` e `/qntPessoas`. Não existe leitor de configuração Firebase a partir de `.env`.
 
-[Alisson Muhammad](https://www.linkedin.com/in/alissonmuhammad/)
+`frontend/public/index.html` carrega Bootstrap 4.3.1 por CDN; os estilos de formulário dependem desse recurso externo.
 
-[Vithor Gabriel]()
+Crie o usuário no seu projeto Firebase por um fluxo administrativo apropriado: o link de cadastro da interface aponta para `#` e não implementa criação de conta. Revise as regras do banco sem expor dados publicamente.
+
+### Arduino component
+
+`temperatura___lcd.ino` usa `LiquidCrystal lcd(12, 11, 5, 4, 3, 2)`, LCD 16×2, entrada analógica `0` e serial a `9600`. A proposta original descreve Arduino UNO, protoboards, sensor de temperatura, LCD, potenciômetro e sensores ultrassônicos; o sketch atual implementa apenas temperatura/LCD/serial. O modelo elétrico do sensor e a montagem completa não estão especificados em arquivos de esquema.
+
+A compilação/upload requer ferramentas Arduino, biblioteca LiquidCrystal e hardware compatível já preparados. Essas ferramentas não foram instaladas, e o firmware não foi compilado nem carregado nesta tarefa.
+
+<a id="getting-started"></a>
+
+## 🚀 Getting started
+
+Na pasta `frontend/`:
+
+```bash
+npm start
+```
+
+A URL padrão é `http://localhost:3000`; a tela inicial é o login e a rota do painel é `#/home`. Para porta temporária em shell POSIX: `PORT=4302 BROWSER=none npm start`.
+
+```bash
+npm run build
+```
+
+A saída é `frontend/build/`. Não existe `start:prod`. `frontend/firebase.json` contém configuração histórica de Hosting com `build` e rewrite para `index.html`; publicação não foi executada. Confira o projeto-alvo antes de qualquer deploy.
+
+Validação com Node.js 14.21.3/npm 6.14.18: dependências instaladas, `CI=true npm run build` concluído e o único teste de montagem passou com `CI=true npm test -- --watchAll=false --runInBand`. O servidor de desenvolvimento iniciou na porta temporária 4302 e respondeu HTTP 200; a tela de login foi renderizada sem erros JavaScript observados. A imagem mostra o frontend compilado servido localmente, sem enviar login ou acessar dados do Firebase. Os processos foram encerrados após a verificação.
+
+<a id="project-structure"></a>
+
+## 🗂️ Project structure
+
+| Caminho | Responsabilidade |
+| --- | --- |
+| `frontend/` | Aplicação React; diretório dos comandos npm |
+| `frontend/src/App.js` | Rotas de login e painel |
+| `frontend/src/pages/Login/` | Autenticação |
+| `frontend/src/pages/Home/` | Leituras do banco e botões do painel |
+| `frontend/src/services/` | Inicialização Firebase e funções de leitura |
+| `frontend/firebase.json` | Configuração de Hosting |
+| `temperatura___lcd.ino` | Leitura analógica, LCD e serial |
+
+<a id="testing-and-quality"></a>
+
+## ✅ Testing and quality
+
+Execute os comandos web dentro de `frontend/`:
+
+| Comando | Finalidade |
+| --- | --- |
+| `npm test -- --watchAll=false --runInBand` | Teste existente de montagem de `App` |
+| `npm run build` | Build estático em `frontend/build/` |
+
+Não há scripts independentes de lint ou formatação, testes do firmware ou automação da integração física. `npm run eject` não é necessário para executar o projeto.
+
+<a id="troubleshooting"></a>
+
+## 🔎 Troubleshooting
+
+| Situação | Evidência e encaminhamento |
+| --- | --- |
+| Login não funciona | Configure Firebase próprio, usuário e provedor e-mail/senha. O link de cadastro não implementa registro. |
+| Painel sem dados | Confira os caminhos `temperatura` e `qntPessoas` e as regras do banco. O sketch não publica esses dados. |
+| Botões não controlam equipamento | Os handlers apenas alteram propriedades de `setState` e exibem alertas; não enviam comandos a hardware. |
+| Erro ao executar npm na raiz | O manifesto fica em `frontend/`; execute os comandos nessa pasta. |
+
+A verificação cobriu a instalação, o build, o teste de montagem e a renderização do login. Autenticação, leituras do banco, integração física, firmware e publicação não foram validados. As chamadas para Firebase ficaram bloqueadas durante a captura, mantendo a interface inicial sem dados de usuários.
+
+<a id="contributing"></a>
+
+## 🤝 Contributing
+
+Crie uma branch a partir de `master`, mantenha as instruções compatíveis com os arquivos do projeto e descreva a alteração em um pull request. Execute as verificações aplicáveis descritas acima; registre limitações de serviços externos e ambiente. Não inclua credenciais, dados pessoais, `node_modules` ou arquivos gerados na entrega.
+
+O trabalho acadêmico original também credita Alisson Muhammad e Vithor Gabriel.
+
+<a id="license"></a>
+
+## 📜 License
+
+Este projeto está sob a licença **MIT** em [LICENSE](LICENSE). Os avisos e créditos existentes foram preservados.
+
+---
+
+<p align="center">Made with 💜 by <a href="https://github.com/paulodaluz">Paulo da Luz</a></p>
